@@ -1,6 +1,7 @@
 body {
     background-color: #E2E2E2;
     height: 900px;
+    font-family: 'Trebuchet MS';
 }
 
 .col-side{
@@ -13,7 +14,6 @@ body {
     position: relative;
     right: 15px;
     color: gray;
-    
 }
 
 .side-head {
