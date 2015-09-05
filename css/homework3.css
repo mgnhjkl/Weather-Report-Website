@@ -1,10 +1,15 @@
 body {
     background-color: #E2E2E2;
-    height: 900px;
     font-family: 'Trebuchet MS';
 }
 
+.row{
+    width: 808px;
+    margin: auto;
+}
+
 .col-side{
+    margin: auto;
     width: 226px;
     float: left;
 }
@@ -51,7 +56,6 @@ body {
     width: 562px;
     float: left;
     margin-left: 20px;
-    
 }
 
 .main-head{
@@ -59,23 +63,55 @@ body {
     background-image: url("../image/header.png");
     background-repeat: no-repeat;
 }
+.main-head h4{
+    margin: 0;
+    float: right;
+    position: relative;
+    right: 40px;
+    font-size: 18px;
+    color: lightgray;
+}
 
 .main-body{
     height: auto;
     background-color: white;
 }
 
+#insider{
+    color: #979797;
+}
+
 .main-foot{
     height: 114px;
     background-image: url("../image/footer.png");
+    text-align: center;
+}
+.main-foot p{
+    margin: 0;
+    font-size: 13px;
+    position: relative;
+    top: 60px;
+    color: gray;
+}
+.main-foot a{
+    color: gray;
 }
 
 .col-main h1{
     margin: 0px;
+    padding: 7px;
 }
 .col-main h3{
     margin: 0px;
+    font-size: 21px;
+    padding-left: 7px;
+    padding-right: 20px;
+    
 }
-.col-main p{
+.main-body p{
     margin: 0px;
+    padding-left: 7px;
+    padding-right: 15px;
+    font-size: 13px;
+    padding-top: 10px;
 }
