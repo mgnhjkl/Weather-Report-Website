@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+            body{
+                width: 70%;
+                text-align: center;
+                margin: auto;
+            }
+            input{
+                margin-bottom: 10px;   
+            }
+        </style>
+        
+    </head>
+    
+    <body>
+        <p>Enter URL for Company List XML File</p>
+        <input type="text" id="xmlurl"></input>
+        <br>
+        <button onclick = "display()"> Submit Query</button>
+        <script type="text/javascript">
+            var xmlDoc;
+            var table = "";
+            function loadXML(url){
+                if (window.XMLHttpRequest){
+                    //code for IE7+, Firefox, Chrome, Opera, Safari
+                    xmlhttp=new XMLHttpRequest();
+                }
+                else{
+                    //code for IE6, IE5
+                    xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+                }
+                try{
+                    xmlhttp.open("GET", url, false);
+                    xmlhttp.send();
+                    xmlDoc = xmlhttp.responseXML;
+                }catch(err){
+                    alert("No such file!");
+                }
+                if (xmlDoc.documentElement.nodeName=="parsererror"){
+                    alert("Error in XML file");   
+                }
+                return xmlDoc;
+            }
+
+            //click and display the table
+            function display(){
+                var url = document.getElementById("xmlurl").value;
+                var xmldoc = loadXML(url);
+                if (xmldoc != null)
+                    excuteXML(xmldoc);
+            }
+            
+            function excuteXML(xmldoc){
+                table = "";
+                table += "<!DOCTYPE html>";
+                table += "<html>";
+                table += "<head>";
+                table += "<title>XML</title>";
+                table += "<style>table, th, tr, td{border: 1px solid black;}</style>";
+                table += "</head>";
+                table += "<body>";
+                table += "<table>";
+                table += "<tr>";
+                headers = xmldoc.getElementsByTagName("Header")[0].children;
+                i = 0;
+                for (i = 0; i < headers.length; i++){
+                    table += "<th>" + headers.item(i).innerHTML + "</th>";
+                }
+                table += "</tr>";
+                //Alert!
+                rows = xmldoc.getElementsByTagName("Row");
+                for (i = 0; i < rows.length; i++){
+                    table += "<tr>";
+                    row = rows[i];
+                    for (j = 0; j < headers.length; j++){
+                        table += "<td>";
+                        if(j == 0 || j == 1 || j == 3){
+                            table += row.children.item(j).innerHTML;
+                        }
+                        else if (j == 2){
+                            if (row.children[j].children.length != 0){
+                                table += "<ul>";
+                                for (k = 0; k < row.children[j].children.length; k++){
+                                    table += "<li>";
+                                    table += row.children[j].children[k].innerHTML;
+                                    table += "</li>";
+                                }
+                                table += "</ul>";
+                            }
+                        }
+                        else if (j == 4){
+                            table += "<a href=\""+ row.children[j].innerHTML +"\">";
+                            table += row.children[j].innerHTML;
+                            table += "</a>";
+                        }
+                        else if (j == 5){
+                            if (row.children[j].innerHTML != "")
+                                table += "<img src=\"" + row.children[j].innerHTML + "\" style=\"height:auto;width:auto;\">";   
+                        }
+                        table += "</td>";
+                    }
+                    table += "</tr>";
+                }
+                table += "</table>";
+                table += "</body>";
+                newWin = window.open("", "Homework4", "height=auto,width=auto");
+                newWin.document.write(table);
+            }
+
+        </script>
+        <noscript>
+    </body>
+    
+</html>
