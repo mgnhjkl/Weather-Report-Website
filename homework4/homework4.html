@@ -32,14 +32,20 @@
                     xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
                 }
                 try{
-                    xmlhttp.open("GET", url, false);
-                    xmlhttp.send();
-                    xmlDoc = xmlhttp.responseXML;
+                xmlhttp.open("GET", url, false);
+                xmlhttp.send();
+                xmlDoc = xmlhttp.responseXML;
                 }catch(err){
                     alert("No such file!");
+                    return null;
+                }
+                if (xmlDoc == null){
+                    alert("No such file!");
+                    return null;
                 }
                 if (xmlDoc.documentElement.nodeName=="parsererror"){
-                    alert("Error in XML file");   
+                    alert("Error in XML file");
+                    return null;
                 }
                 return xmlDoc;
             }
@@ -53,6 +59,10 @@
             }
             
             function excuteXML(xmldoc){
+                if (xmldoc.getElementsByTagName("Row").length == 0){
+                    alert("No Companies!");
+                    return null;
+                }
                 table = "";
                 table += "<!DOCTYPE html>";
                 table += "<html>";
@@ -60,7 +70,7 @@
                 table += "<title>XML</title>";
                 table += "<style>table, th, tr, td{border: 1px solid black;}</style>";
                 table += "</head>";
-                table += "<body>";
+                table += "<body>"
                 table += "<table>";
                 table += "<tr>";
                 headers = xmldoc.getElementsByTagName("Header")[0].children;
@@ -69,7 +79,6 @@
                     table += "<th>" + headers.item(i).innerHTML + "</th>";
                 }
                 table += "</tr>";
-                //Alert!
                 rows = xmldoc.getElementsByTagName("Row");
                 for (i = 0; i < rows.length; i++){
                     table += "<tr>";
@@ -83,6 +92,10 @@
                             if (row.children[j].children.length != 0){
                                 table += "<ul>";
                                 for (k = 0; k < row.children[j].children.length; k++){
+                                    blank_patt = /^\s*$/g;
+                                    if (blank_patt.test(row.children[j].children[k].innerHTML)){
+                                        continue;
+                                    }
                                     table += "<li>";
                                     table += row.children[j].children[k].innerHTML;
                                     table += "</li>";
@@ -96,16 +109,18 @@
                             table += "</a>";
                         }
                         else if (j == 5){
-                            if (row.children[j].innerHTML != "")
-                                table += "<img src=\"" + row.children[j].innerHTML + "\" style=\"height:auto;width:auto;\">";   
+                            blank_patt = /^\s*$/g;
+                            if (!blank_patt.test(row.children[j].innerHTML))
+                                table += "<img src=\"" + row.children[j].innerHTML + "\" style=\"height:auto;width:auto;\">";                                 
                         }
                         table += "</td>";
                     }
                     table += "</tr>";
                 }
                 table += "</table>";
-                table += "</body>";
-                newWin = window.open("", "Homework4", "height=auto,width=auto");
+                table += "</bo";
+                table += "dy>";
+                newWin = window.open("", "_blank", "height=auto,width=auto,scrollbars=1");
                 newWin.document.write(table);
             }
 
